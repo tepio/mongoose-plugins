@@ -1,6 +1,7 @@
 const test = require('ava');
 const mongoose = require('mongoose');
 const _ = require('lodash');
+mongoose.Promise = Promise
 mongoose.connect('mongodb://localhost:27017/simpleId');
 
 const renameIdPlugin = require('../');
@@ -19,6 +20,11 @@ test('create', async t => {
 
 test('findOne', async t => {
   const post = await Post.findOne({ id });
+  t.is(String(post.id), String(id));
+});
+
+test('findById', async t => {
+  const post = await Post.findById(id);
   t.is(String(post.id), String(id));
 });
 
