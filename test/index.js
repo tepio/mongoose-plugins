@@ -2,7 +2,8 @@ const test = require('ava');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 mongoose.Promise = Promise
-mongoose.connect('mongodb://localhost:27017/simpleId');
+const mongodbURI = process.env.TRAVIS ? 'mongodb://travis:test@localhost:27017/mydb_test': 'mongodb://localhost:27017/simpleId'
+mongoose.connect(mongodbURI)
 
 const renameIdPlugin = require('../');
 
@@ -27,6 +28,12 @@ test('findById', async t => {
   const post = await Post.findById(id);
   t.is(String(post.id), String(id));
 });
+
+test('transform', async t => {
+  const post = await Post.findOne({ id });
+  t.is(String(post.toObject().id), String(id))
+  t.is(String(post.toJSON().id), String(id))
+})
 
 test('find', async t => {
   const posts = await Post.find({ id });

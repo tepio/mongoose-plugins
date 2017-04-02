@@ -9,10 +9,12 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
-    "mongoose": "^4.4.17"
+    "mongoose": "^4.4.17",
+    "nyc": "^10.2.0"
   },
   "scripts": {
-    "test": "ava -s"
+    "test": "ava -s",
+    "test:coverage": "nyc ava -s"
   },
   "repository": {
     "type": "git",
